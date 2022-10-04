@@ -1,0 +1,53 @@
+1_Ejecución fork1: 
+Soy el proceso 9033
+Soy el proceso 9034
+
+Por pantalla se printean dos procesos. El del número menor es el padre y el del mayor es el hijo, porque un proceso al crear un hijo, este aun heredando cirtos aspectos del padre, el PID es uno de los que no se heredan y se otorga uno nuevo.
+
+2_Ejecución fork2: 
+Antes del fork: Soy el proceso 9042
+PADRE: Soy el proceso 9042
+Los DOS: Soy el proceso 9042
+HIJO: Soy el proceso 9043
+Los DOS: Soy el proceso 9043
+
+Al principio tenemos un solo proceoso, por eso los primeros mensajes comparten el pid del padre (no distinguimos el proceso como padre hasta después del fork, cuando ya se ha creado el hijo).Por ello, a continuación de crear el hijo, el pid que recibimos cambia, y el mensaje conjunto pasa a tomar el pid del hijo.
+
+3_Ejecución fork3: 
+Antes del fork: Soy el proceso 9044
+PADRE: Soy el proceso 9044
+Solo lo ejecuta el padre: Soy el proceso 9044
+HIJO: Soy el proceso 9045
+
+Primero nos dan el pid del proceso base. A continuación se hace el fork y pasamos a tener proceso padre e hijo, dandónos el pid del primero. El código que solo ejecuta el padre se debe a que a diferencia del hijo, este no tiene una función interna exit que termine todos los procesos. Es por ello que el hijo solo imprime su pid como HIJO: soy el proceso xxxx, ya que justo después se termina el programa.
+
+4_Ejecución fork4: 
+Antes del fork: Soy el proceso 7903
+PADRE: Soy el proceso 7903
+Solo lo ejecuta el padre: Soy el proceso 7903
+HIJO: Soy el proceso 7904
+HIJO acaba: Soy el proceso 7904
+
+Este es el orden de los procesos y al inicio el proceso que acaba es el hijo, debido al bucle en el código
+
+5_Ejecución fork5:
+<pre>Antes del fork: Soy el proceso 9309
+PADRE: Soy el proceso 9309
+HIJO: Soy el proceso 9310
+HIJO:La variable_global vale A y la local a
+PADRE:La variable_global vale A y la local a
+Solo lo ejecuta el padre: Soy el proceso 9309
+
+Similar al 3 en ejecución. Primero nos dan el pid del proceso general. Luego se ejecuta el fork y se crea al hijo. En ese momento los dos procesos ejecutan el acceso a las variables, hecho que se muestra en pantalla. El padre acaba último ya que tiene un waitpid -1, haciendo que tenga que esperar a la finalización del hijo
+
+6_Ejecución fork6:
+El fichero de salida consiste en un grupo relevante de mensajes donde va cambiando de forma paulatina la variable global mostrada en pantalla.
+Es posible assegurar que el contenido de salida serà siempre el mismo debido a dos hechos. El primero es que las varibales iniciales son las mismas para el padre y para el hijo. Lo segundo es que los bucles del padre y del hijo són iguales, así como la forma en como van modificando las variables. Al ejecutarse todo esto de forma concurrente, tanto padre como hijo harán los mismos cambios en todas las ejecuciones del programa que realicemos.
+
+7_Ejecución fork7: El programa no compila porque la variable local que se queire utilizar no es accesible desde la función externa que imprime las varibales. Por ello, para que compile, simplemente hay que modificar la función para que esta requiera del parámetro de la variable local.
+
+8_Ejecución exec1: Este programa hace un ls -la, mostrando la información detallada de todos los archivos del directorio. EL pid de cada proceso sale repetidamente, asi como también varia debido a la ejecución de la acción exec, que aun ser el mismo proceso, cambia la ejecución.
+
+9_Ejecución exec2: Por pantalla aparecen solo tres mensajes. Dos corresponden al mismo proceso, ya que tienen el mismo pid, mientras que el tercero tiene un pid diferente, ergo debe ser el proceso hijo que se ha creado en alguna ejecución de proceso del programa. Por tanto, podemos decir que se ejecutan 2 procesos.
+
+Consulta en el man: Las páginas del man visitadas son las referentes a llamadas a sistemas y procesos

@@ -1,0 +1,2 @@
+listaparametros: listaParametros.c
+	gcc -o listaparametros listaParametros.c
