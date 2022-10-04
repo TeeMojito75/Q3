@@ -1,0 +1,67 @@
+#Pregunta 1 (25%)
+
+Doneu una seqüència d'operacions d'algebra relacional per obtenir el nom del departament on treballa i el nom del projecte on està assignat l'empleat número 2.
+
+Pel joc de proves que trobareu al fitxer adjunt, la sortida seria:
+
+Nom_dpt		Nom_proj
+MARKETING		IBDVID  
+Solució:
+ E=EMPLEATS(NUM_EMPL=2)
+D=DEPARTAMENTS*E
+P=PROJECTES*D
+R=P[NOM_DPT, NOM_PROJ]
+
+#Pregunta 2 (25%)
+
+Doneu una seqüència d'operacions d'algebra relacional per obtenir el número i nom dels departaments tals que tots els seus empleats viuen a MADRID. El resultat no ha d'incloure aquells departaments que no tenen cap empleat.
+
+Pel joc de proves que trobareu al fitxer adjunt, la sortida seria:
+
+Num_dpt		Nom_dpt
+3 		MARKETING
+
+Solució: 	E=EMPLEATS(CIUTAT_EMPL='MADRID')
+N=EMPLEATS(CIUTAT_EMPL<>'MADRID')
+D=E*DEPARTAMENTS
+K=N*DEPARTAMENTS
+J=D[NUM_DPT, NOM_DPT]
+L=K[NUM_DPT, NOM_DPT]
+R=J-L
+
+#Pregunta 3 (25%)
+
+Doneu una seqüència d'operacions de l'àlgebra relacional per obtenir el número i nom dels departaments que tenen dos o més empleats que viuen a ciutats diferents.
+
+Pel joc de proves que trobareu al fitxer adjunt, la sortida seria:
+
+Num_dpt		Nom_dpt
+3 		MARKETING
+
+  Fitxer adjunt
+
+Solució: 
+E=EMPLEATS{NUM_DPT->NUM_DEPT, NUM_EMPL->NUM_EMP, NOM_EMPL->NOM_EMP, SOU->SALARI, NUM_PROJ->NUM_PRJ, CIUTAT_EMPL->CIUTAT_EMP}
+S=EMPLEATS[NUM_DPT=NUM_DEPT, CIUTAT_EMPL!=CIUTAT_EMP]E
+D=S*DEPARTAMENTS
+R=D[NUM_DPT, NOM_DPT]
+
+#Pregunta 4 (25%)
+
+Donar una seqüència d'operacions d'àlgebra relacional per obtenir informació sobre els despatxos que només han estat ocupats per professors amb sou igual a 100000. Es vol obtenir el modul i el numero d'aquests despatxos.
+
+Pel joc de proves que trobareu al fitxer adjunt, la sortida ha de ser:
+
+Modul 	Numero
+Omega 	128
+
+  Fitxer adjunt
+
+Solució: 
+P=PROFESSORS(sou=100000)
+N=PROFESSORS(sou<>100000)
+A=P*ASSIGNACIONS
+B=N*ASSIGNACIONS
+C=A[modul, numero]
+D=B[modul, numero]
+E=C-D
