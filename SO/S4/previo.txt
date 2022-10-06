@@ -1,0 +1,25 @@
+#Sobre alarm1: recepción de diferentes tipos de signals y envío de eventos
+desde la consola
+ 1. Por la consola se muestra un mensaje de proceso terminado: [1]    5621 alarm      ./alarm1
+
+ 2. Aunque el proceso se termina como antes, en este caso el causante de la finalización es el comando que hemos ejecutado. Es por ello que por consola se muestra el siguiente mensaje: [1]    6123 killed     ./alarm1
+
+ 3. ?
+ 
+ 4. ?
+ 
+#Sobre alarm2: cualquier signal se puede enviar desde el Shell.
+ 1. Al ejecutar el comando kill -ALRM observamos por consola diferentes mensajes de los segundos que han pasado hasta los 100, que es el máximo definido en el bucle del programa. Por lo tanto el control de tiempo ha funcionado correctamente
+ 
+ 2. No, aunque es possible modificar el tratamiento asociado a la mayoría de señales, SIGKILL y SIGSTOP no pueden modificarse
+ 
+ 3. Si alarm devuelve 0 cuando no está asociado al temporizador, simplemente tendríamos que meter un condicional en el código para que imprimiera exclusivamente cuando el valor de retorno fuera diferente de 0.
+ 
+ #Sobre alarm3: la tabla de programación de signals se hereda.
+  1. ?
+  
+ # Sobre alarm4: los SIGALRM son recibidos únicamente por el proceso que los
+ha generado
+ 1.   
+  
+  
