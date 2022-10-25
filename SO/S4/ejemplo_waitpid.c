@@ -73,8 +73,14 @@ main (int argc, char *argv[])
   while (hijos > 0)
     {
       pid = waitpid (-1, &res, 0);
-      sprintf (buff, "Termina el proceso %d\n", pid);
-      write (1, buff, strlen (buff));
+      if (WIFEXITED(res)) {
+        sprintf (buff, "Termina el proceso %d con resultado %d\n", pid,WEXITSTATUS(res));
+        write (1, buff, strlen (buff));
+      }
+      else if (WIFSIGNALED(res)) {
+       sprintf (buff, "Termina el proceso %d con resultado %d\n", pid,WTERMSIG(res));
+       write (1, buff, strlen (buff));   
+      }
       hijos--;
       contador++;
     }

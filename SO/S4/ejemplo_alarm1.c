@@ -13,7 +13,7 @@ main (int argc, char *argv[])
   sigaddset (&mask, SIGALRM);
   sigprocmask (SIG_BLOCK, &mask, NULL);
 
-  alarm (10);
+  alarm (5);
   sigfillset (&mask);
   sigdelset (&mask, SIGALRM);
   sigdelset (&mask, SIGINT);

@@ -1,0 +1,15 @@
+#PREGUNTA 28.¿Qué le pasa al padre ahora cuando le llega el evento SIGALRM?
+-> Ya que ahora la reprogramación del SIGALRM es privada del hijo, cuando mandas un SIGALRM al padre ejecuta la acción por defecto del signal, que es la de terminar el proceso.
+
+#PREGUNTA 29.¿Qué pasa con la tabla de tratamientos de signals si hacemos un execlp (y
+cambiamos el código)? ¿Se mantiene la reprogramación de signals? ¿Se pone por defecto?
+-> Cuando se muta con execlp la tabla de tratamientos de signals se resetea a los valores por defecto y solo se terminan de ejecutar las modificadas que quedasen pendientes, de tal forma que el hijo muere.
+
+#PREGUNTA 30.El programa ejemplo_waitpid, ¿Es secuencial o concurrente?
+->Concurrente, ya que en el programa los hijos son creados al principio y al final, con el waitpid(), se espera a que vayan terminando.
+
+#PREGUNTA 31. ¿El usuario so1 puede enviar al signals al proceso lanzado por el usuario alumne? ¿Qué error da?
+No es posible enviar signals entre usuarios. 
+
+#PREGUNTA 32. ¿Qué menaje muestra la SHell cuando se envía por segunda vez al mismo signal?
+->

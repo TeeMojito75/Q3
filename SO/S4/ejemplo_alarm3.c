@@ -33,19 +33,34 @@ main (int argc, char *argv[])
   sigaddset (&mask, SIGALRM);
   sigprocmask (SIG_BLOCK, &mask, NULL);
 
-  /* REPROGRAMAMOS EL SIGNAL SIGALRM */
-  sa.sa_handler = &funcion_alarma;
-  sa.sa_flags = SA_RESTART;
-  sigfillset (&sa.sa_mask);
+   sa.sa_handler = &funcion_alarma;
+   sa.sa_flags = SA_RESTART;
+   sigfillset (&sa.sa_mask);
+ 
 
-  if (sigaction (SIGALRM, &sa, NULL) < 0)
+  /* REPROGRAMAMOS EL SIGNAL SIGALRM */
+   if (sigaction (SIGALRM, &sa, NULL) < 0)
     error_y_exit ("sigaction", 1);
 
-  if (fork () < 0)
-    error_y_exit ("fork", 1);
+  
+  int pid;
   while (segundos < 100)
     {
       alarm (10);
+      pid = fork();
+      if (fork() < 0) error_y_exit("fork", 1);
+      else if (pid == 0) {
+         /*
+            //REPROGRAMAMOS EL SIGNAL SIGALRM
+            sa.sa_handler = &funcion_alarma;
+            sa.sa_flags = SA_RESTART; 
+            sigfillset(&sa.sa_mask); 
+
+            if (sigaction(SIGALRM, &sa, NULL) < 0) error_y_exit("sigaction", 1);
+        */
+            execlp("./bucleInfinito", "./bucleInfinito", NULL); 
+      }
+
       sigfillset (&mask);
       sigdelset (&mask, SIGALRM);
       sigdelset (&mask, SIGINT);

@@ -31,6 +31,7 @@ main (int argc, char *argv[])
 
   sigemptyset (&mask);
   sigaddset (&mask, SIGALRM);
+  sigaddset (&mask, SIGUSR1);
   sigprocmask (SIG_BLOCK, &mask, NULL);
 
   /* REPROGRAMAMOS EL SIGNAL SIGALRM */
@@ -38,7 +39,7 @@ main (int argc, char *argv[])
   sa.sa_flags = SA_RESTART;
   sigfillset (&sa.sa_mask);
 
-  if (sigaction (SIGALRM, &sa, NULL) < 0)
+  if (sigaction (SIGALRM, &sa, NULL) < 0 || sigaction(SIGUSR1, &sa, NULL) < 0)
     error_y_exit ("sigaction", 1);
 
   while (segundos < 100)
@@ -48,6 +49,7 @@ main (int argc, char *argv[])
       sigfillset (&mask);
       sigdelset (&mask, SIGALRM);
       sigdelset (&mask, SIGINT);
+      sigdelset(&mask, SIGUSR1);
       sigsuspend (&mask);
     }
   exit (1);
