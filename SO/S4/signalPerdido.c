@@ -65,13 +65,21 @@ main (int argc, char *argv[])
 
   if (pid_h == 0)
     {
+      sigset_t delay_mask;
+      sigemptyset(&delay_mask);
+      sigaddset(&delay_mask, SIGUSR1);
+      sigprocmask(SIG_BLOCK, &delay_mask, NULL);
+
       sprintf (buf, "Hijo entrando al pause\n");
       write (1, buf, strlen (buf));
       //pause();
+
       sigfillset (&mask);
       sigdelset (&mask, SIGUSR1);
       sigdelset (&mask, SIGINT);
       sigsuspend (&mask);
+      
+      sigprocmask(SIG_UNBLOCK, &delay_mask, NULL);
       sprintf (buf, "Hijo sale del pause\n");
       write (1, buf, strlen (buf));
     }

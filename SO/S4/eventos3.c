@@ -20,10 +20,10 @@ void funcion_alarma(int s) {
   }
   struct sigaction sa1;
     sa1.sa_handler = SIG_DFL;
-    sa1.sa_flags = SA_RESETHAND;
+    sa1.sa_flags = SA_RESTART;
     sigfillset(&sa1.sa_mask);
     sigaction(SIGUSR1, &sa1, NULL);
-    sigaction(SIGUSR2, &sa1, NULL); 
+     
 }
 
 int main(int argc, char *argv[]) {
