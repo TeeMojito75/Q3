@@ -1,0 +1,112 @@
+-- Sentències d'esborrat de la base de dades:
+drop table lloguers_actius;
+drop table treballadors;
+drop table cotxes;
+drop table missatgesExcepcions;
+drop function  llistat_treb(char(8), char(8));
+drop type return_type;
+
+-- Sentències de preparació de la base de dades:
+create table cotxes(
+	matricula char(10) primary key,
+	marca char(20) not null,
+	model char(20) not null,
+	categoria integer not null,
+	color char(10),
+	any_fab integer
+	);
+create table treballadors(
+	dni char(8) primary key,
+	nom char(30) not null,
+	sou_base real not null,
+	plus real not null
+	);
+create table lloguers_actius(
+	matricula char(10) primary key    references cotxes,
+	dni char(8) not null constraint fk_treb  references treballadors,
+	num_dies integer not null,
+	preu_total real not null
+	);
+
+create table missatgesExcepcions(
+	num integer, 
+	texte varchar(50)
+	);
+insert into missatgesExcepcions values(1,'No hi ha cap tupla dins del interval demanat');
+insert into missatgesExcepcions values(2, 'Error intern');
+
+--------------------------
+-- Joc de proves Public
+--------------------------
+
+-- Sentències de neteja de les taules:
+delete from lloguers_actius;
+delete from treballadors;
+delete from cotxes;
+
+-- Sentències d'inicialització:
+insert into cotxes values ('1111111111','Audi','A4',1,'Vermell',1998);
+insert into cotxes values ('2222222222','Audi','A3',2,'Blanc',1998);
+insert into cotxes values ('3333333333','Volskwagen','Golf',2,'Blau',1990);
+insert into cotxes values ('4444444444','Toyota','Corola',3,'groc',1999);
+insert into cotxes values ('5555555555','Honda','Civic',3,'Vermell',2000);
+insert into cotxes values ('6666666666','BMW','Mini',2,'Vermell',2000);
+
+insert into treballadors values ('22222222','Joan',1700,150);
+
+insert into lloguers_actius values ('1111111111','22222222',7,750);
+insert into lloguers_actius values ('2222222222','22222222',5,550);
+insert into lloguers_actius values ('3333333333','22222222',4,450);
+insert into lloguers_actius values ('4444444444','22222222',8,850);
+insert into lloguers_actius values ('5555555555','22222222',2,250);
+
+CREATE TYPE return_type AS (
+	DNI char(8),
+	Nom char(30),
+	Sou integer,
+	Plus integer,
+	Matricula char(10)
+);
+
+CREATE FUNCTION llistat_treb(dniIni char(8), dniFi char(8))
+RETURNS setof return_type AS $$
+
+declare
+	return_data return_type;
+	lloguers integer;
+	dni_treb char(8);
+	matricula char(10);
+	error_text missatgesExcepcions.texte%type;
+begin
+	for dni_treb in select dni from treballadors where dni_treb >= dniIni and dni_treb <= dniFi loop 
+		lloguers := (select COUNT(*) from lloguers_actius a where a.dni = dni_treb);
+		if (dniIni > dniFi) then
+		select texte into error_text
+	
+		if (lloguers) < 5 then 
+			
+			return_data := (select t.dni, t.nom, t.sou_base, t.plus, NULL
+			from treballadors t, lloguers_actius a where t.dni = dni_treb);
+			return next return_data;
+		
+		else 
+			for matricula in (select la.matricula from lloguers_actius la
+				where la.dni = dni) loop 
+		
+					return_data := (select t.dni, t.nom, t.sou_base, t.plus, la.matricula 
+					from treballadors t, lloguers_actius a where t.dni = dni_treb);
+					return next return_data;
+				
+				end loop;
+			end if;
+	end loop;
+end;
+
+$$LANGUAGE plpgsql;
+
+SELECT * FROM llistat_treb('11111111','33333333');
+
+
+
+
+
