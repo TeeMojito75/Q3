@@ -1,0 +1,100 @@
+#PREGUNTA 35.¿Qué variables aparecen en la salida del nm de mem1_dynamic? ¿Qué
+dirección ocupa cada una? Indica a que región pertenece cada variable según la salida del nm
+y el tipo de variable (local o global)
+-> 000000000000038c r __abi_tag
+                 U atoi@GLIBC_2.2.5
+0000000000004010 B __bss_start
+0000000000004020 b completed.0
+                 w __cxa_finalize@GLIBC_2.2.5
+0000000000004000 D __data_start
+0000000000004000 W data_start
+0000000000001130 t deregister_tm_clones
+00000000000011a0 t __do_global_dtors_aux
+0000000000003d98 d __do_global_dtors_aux_fini_array_entry
+0000000000004008 D __dso_handle
+0000000000003da0 d _DYNAMIC
+0000000000004010 D _edata
+0000000000005040 B _end
+                 U exit@GLIBC_2.2.5
+0000000000001454 T _fini
+00000000000011e0 t frame_dummy
+0000000000003d90 d __frame_dummy_init_array_entry
+0000000000002144 r __FRAME_END__
+0000000000004040 B globalArray
+0000000000003f90 d _GLOBAL_OFFSET_TABLE_
+                 w __gmon_start__
+000000000000206c r __GNU_EH_FRAME_HDR
+0000000000001000 T _init
+0000000000002000 R _IO_stdin_used
+                 w _ITM_deregisterTMCloneTable
+                 w _ITM_registerTMCloneTable
+                 U __libc_start_main@GLIBC_2.34
+00000000000011e9 T main
+                 U malloc@GLIBC_2.2.5
+0000000000001160 t register_tm_clones
+                 U sprintf@GLIBC_2.2.5
+0000000000001100 T _start
+                 U strlen@GLIBC_2.2.5
+0000000000004010 D __TMC_END__
+                 U write@GLIBC_2.2.5
+
+En la salida del comando nm podemos observar el global array situado en el bss (0000000000004040 B).
+Las variables locales no se muestran, ya que a estas no se les asigna un espacio de memoria hasta el momento de su utilización.
+
+
+#PREGUNTA 36.Para los dos ejecutables, compilado estático y dinámico, observa su tamaño, la
+salida de los comandos nm y objdump ¿En qué se diferencian los dos ejecutables?
+-> Tanto si usamos el comando nm como el objdump -d, podemos observar que cuando compilamos el programa 
+y enlazamos las librerías estáticas, el ejectuable resultante es mucho mayor que cuando lo hacemos de la forma tradicional con las librerías dinámicas. Esto se debe a que al enlazar en las librerías estáticas estas se incluyen en el compilado, dando como resultado un ejecutable de mucho más tamaño que si solo usamos el compilado por default. 
+
+#PREGUNTA 37.Observa el contenido del fichero maps del /proc para cada proceso y apunta
+para cada región la dirección inicial, dirección final y etiqueta asociada. ¿Qué diferencia hay
+entre el maps de cada proceso?
+-> 
+DINÁMICAS 
+1  564b50f0e000-564b50f0f000 r--p 00000000 08:16 1706518                    /home/juanca/Documentos/Q3/SO/   S5/mem1_dynamic                                                                                        
+ 1 564b50f0f000-564b50f10000 r-xp 00001000 08:16 1706518                    /home/juanca/Documentos/Q3/SO/   S5/mem1_dynamic                                                                                        
+ 2 564b50f10000-564b50f11000 r--p 00002000 08:16 1706518                    /home/juanca/Documentos/Q3/SO/   S5/mem1_dynamic                                                                                        
+ 3 564b50f11000-564b50f12000 r--p 00002000 08:16 1706518                    /home/juanca/Documentos/Q3/SO/   S5/mem1_dynamic                                                                                        
+ 4 564b50f12000-564b50f13000 rw-p 00003000 08:16 1706518                    /home/juanca/Documentos/Q3/SO/   S5/mem1_dynamic                                                                                        
+ 5 564b50f13000-564b50f14000 rw-p 00000000 00:00 0                                                        
+ 6 564b5208b000-564b520ac000 rw-p 00000000 00:00 0                          [heap]                        
+ 7 7fdea39da000-7fdea39dd000 rw-p 00000000 00:00 0                                                        
+ 8 7fdea39dd000-7fdea3a05000 r--p 00000000 08:16 5904568                    /usr/lib/x86_64-linux-gnu/libc   .so.6                                                                                                  
+ 9 7fdea3a05000-7fdea3b9a000 r-xp 00028000 08:16 5904568                    /usr/lib/x86_64-linux-gnu/libc   .so.6                                                                                                  
+10 7fdea3b9a000-7fdea3bf2000 r--p 001bd000 08:16 5904568                    /usr/lib/x86_64-linux-gnu/libc   .so.6                                                                                                  
+11 7fdea3bf2000-7fdea3bf6000 r--p 00214000 08:16 5904568                    /usr/lib/x86_64-linux-gnu/libc   .so.6                                                                                                  
+12 7fdea3bf6000-7fdea3bf8000 rw-p 00218000 08:16 5904568                    /usr/lib/x86_64-linux-gnu/libc   .so.6                                                                                                  
+13 7fdea3bf8000-7fdea3c05000 rw-p 00000000 00:00 0                                                        
+14 7fdea3c15000-7fdea3c17000 rw-p 00000000 00:00 0                                                        
+15 7fdea3c17000-7fdea3c19000 r--p 00000000 08:16 5904231                    /usr/lib/x86_64-linux-gnu/ld-l   inux-x86-64.so.2                                                                                       
+16 7fdea3c19000-7fdea3c43000 r-xp 00002000 08:16 5904231                    /usr/lib/x86_64-linux-gnu/ld-l   inux-x86-64.so.2                                                                                       
+17 7fdea3c43000-7fdea3c4e000 r--p 0002c000 08:16 5904231                    /usr/lib/x86_64-linux-gnu/ld-l   inux-x86-64.so.2                                                                                       
+18 7fdea3c4f000-7fdea3c51000 r--p 00037000 08:16 5904231                    /usr/lib/x86_64-linux-gnu/ld-l   inux-x86-64.so.2                                                                                       
+19 7fdea3c51000-7fdea3c53000 rw-p 00039000 08:16 5904231                    /usr/lib/x86_64-linux-gnu/ld-l   inux-x86-64.so.2                                                                                       
+20 7ffd71413000-7ffd71434000 rw-p 00000000 00:00 0                          [stack]                       
+21 7ffd714e6000-7ffd714ea000 r--p 00000000 00:00 0                          [vvar]                        
+22 7ffd714ea000-7ffd714ec000 r-xp 00000000 00:00 0                          [vdso]                        
+23 ffffffffff600000-ffffffffff601000 --xp 00000000 00:00 0                  [vsyscall]  
+
+ESTÁTICAS:
+1  00400000-00401000 r--p 00000000 08:16 1706528                            /home/juanca/Documentos/Q3/SO/   S5/mem1_static                                                                                         
+ 1 00401000-00498000 r-xp 00001000 08:16 1706528                            /home/juanca/Documentos/Q3/SO/   S5/mem1_static                                                                                         
+ 2 00498000-004c1000 r--p 00098000 08:16 1706528                            /home/juanca/Documentos/Q3/SO/   S5/mem1_static                                                                                         
+ 3 004c1000-004c5000 r--p 000c0000 08:16 1706528                            /home/juanca/Documentos/Q3/SO/   S5/mem1_static                                                                                         
+ 4 004c5000-004c8000 rw-p 000c4000 08:16 1706528                            /home/juanca/Documentos/Q3/SO/   S5/mem1_static                                                                                         
+ 5 004c8000-004ce000 rw-p 00000000 00:00 0                                                                
+ 6 01dfe000-01e20000 rw-p 00000000 00:00 0                                  [heap]                        
+ 7 7ffc2c34f000-7ffc2c370000 rw-p 00000000 00:00 0                          [stack]                       
+ 8 7ffc2c3cf000-7ffc2c3d3000 r--p 00000000 00:00 0                          [vvar]                        
+ 9 7ffc2c3d3000-7ffc2c3d5000 r-xp 00000000 00:00 0                          [vdso]                        
+10 ffffffffff600000-ffffffffff601000 --xp 00000000 00:00 0                  [vsyscall]                                                                                                                
+
+->Podemos observar que el contenido de maps es mucho mayor en el maps de mem1_dynamic, que en el ejecutable enlazado a las librerías estáticas. Esto es debido que al inlcuir estas en el compilado, ahora ya no se requiere acceder a ellas a través de la memoría y por lo tanto hay parte de las direcciones que enseña el maps de dynamic que sería redundante usar en el static.
+
+#PREGUNTA 38.¿A qué región de las descritas en el maps pertenece cada variable y cada zona
+reservada con malloc? Apunta la dirección inicial, dirección final y el nombre de la región
+-> El malloc, como vimos en teoría, aumenta o libera espacio del heap, por lo tanto la dirección de las variables del programa en el maps corresponde al de heaps (que sale como una entidad, sin las divisiones, por así decirlo):
+HEAP DYNAMIC: 564b5208b000-564b520ac000
+HEAP STATIC: 01dfe000-01e20000
+
