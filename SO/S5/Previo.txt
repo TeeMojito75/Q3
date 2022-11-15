@@ -1,0 +1,105 @@
+1: Apunta en el man las información que nos da el ejecutar el comando nm con el archivo
+Las direcciones asignadas son las que aparecen aquí a la izquierda, de todas las instrucciones del programa:
+       |
+       |
+       V
+                 U atoi@@GLIBC_2.2.5
+0000000000601058 B __bss_start
+0000000000601058 b completed.7585
+0000000000601048 D __data_start
+0000000000601048 W data_start
+0000000000400580 t deregister_tm_clones
+0000000000400600 t __do_global_dtors_aux
+0000000000600e18 t __do_global_dtors_aux_fini_array_entry
+0000000000601050 D __dso_handle
+0000000000600e28 d _DYNAMIC
+0000000000601058 D _edata
+0000000000601060 B _end
+                 U exit@@GLIBC_2.2.5
+00000000004007e4 T _fini
+0000000000400620 t frame_dummy
+0000000000600e10 t __frame_dummy_init_array_entry
+0000000000400970 r __FRAME_END__
+0000000000601000 d _GLOBAL_OFFSET_TABLE_
+                 w __gmon_start__
+0000000000400820 r __GNU_EH_FRAME_HDR
+00000000004004a8 T _init
+0000000000600e18 t __init_array_end
+0000000000600e10 t __init_array_start
+00000000004007f0 R _IO_stdin_used
+                 w _ITM_deregisterTMCloneTable
+                 w _ITM_registerTMCloneTable
+000000000060105c B j
+0000000000600e20 d __JCR_END__
+0000000000600e20 d __JCR_LIST__
+                 w _Jv_RegisterClasses
+00000000004007e0 T __libc_csu_fini
+0000000000400770 T __libc_csu_init
+                 U __libc_start_main@@GLIBC_2.2.5
+0000000000400665 T main
+00000000004005c0 t register_tm_clones
+                 U sprintf@@GLIBC_2.2.5
+0000000000400550 T _start
+                 U strlen@@GLIBC_2.2.5
+0000000000400646 T suma
+0000000000601058 D __TMC_END__
+                 U write@@GLIBC_2.2.5
+
+Es posible saber la dirección de la variable j ya que es una variable global, sin embargo, no es posible saber la dirección de memoria de i ya que es una variable local y se asignará cuando se ejecute el programa.
+La j está en el BSS y la i en un espacio de memoria reservado para la memoria dinámica.
+La dirección asignada de la función suma está en la sección de código.
+
+
+P2: Da el comando para enlazar con librerías estáticas 
+El comando usado es el siguiente:
+gcc -o mem1_previo_v2 mem1_previo_v2.c -static
+
+P3: 
+mem2: 10
+4 004c7000-004ca000 rw-p 000c6000 08:16 1706505                            /home/juanca/Documentos/Q3/SO/   S5/mem2_previo                                                                                         
+ 5 004ca000-004f7000 rw-p 00000000 00:00 0                                                                
+ 6 01ea7000-01ec9000 rw-p 00000000 00:00 0                                  [heap]                        
+ 7 7ffddd4e1000-7ffddd502000 rw-p 00000000 00:00 0                          [stack]                       
+ 8 7ffddd586000-7ffddd58a000 r--p 00000000 00:00 0                          [vvar]                        
+ 9 7ffddd58a000-7ffddd58c000 r-xp 00000000 00:00 0                          [vdso]                        
+10 ffffffffff600000-ffffffffff601000 --xp 00000000 00:00 0                  [vsyscall]                    
+ HEAP = 01ec9000 - 01ea7000 
+ DATOS =  004c7000-004ca000 
+ 
+ mem2 : 40000
+    4 004c7000-004ca000 rw-p 000c6000 08:16 1706505                            /home/juanca/Documentos/Q3/SO/S5/mem2_p   revio                                                                                                           
+ 5 004ca000-004f7000 rw-p 00000000 00:00 0                                                                         
+ 6 0205c000-0207e000 rw-p 00000000 00:00 0                                  [heap]                                 
+ 7 7ffd26ca4000-7ffd26cc5000 rw-p 00000000 00:00 0                          [stack]                                
+ 8 7ffd26d2a000-7ffd26d2e000 r--p 00000000 00:00 0                          [vvar]                                 
+ 9 7ffd26d2e000-7ffd26d30000 r-xp 00000000 00:00 0                          [vdso]                                 
+10 ffffffffff600000-ffffffffff601000 --xp 00000000 00:00 0                  [vsyscall]                             
+    
+ HEAP = 0205c000-0207e000 
+ DATOS =  004c7000-004ca000 
+
+mem2_v2: 10
+ 004c7000-004ca000 rw-p 000c6000 08:16 1706514                            /home/juanca/Documentos/Q3/SO/   S5/mem2_previo_v2                                                                                      
+ 5 004ca000-004cf000 rw-p 00000000 00:00 0                                                                
+ 6 01df0000-01e13000 rw-p 00000000 00:00 0                                  [heap]                        
+ 7 7ffdc488b000-7ffdc48ac000 rw-p 00000000 00:00 0                          [stack]                       
+ 8 7ffdc48b1000-7ffdc48b5000 r--p 00000000 00:00 0                          [vvar]                        
+ 9 7ffdc48b5000-7ffdc48b7000 r-xp 00000000 00:00 0                          [vdso]                        
+10 ffffffffff600000-ffffffffff601000 --xp 00000000 00:00 0                  [vsyscall]               
+
+ HEAP: 01df0000-01e13000
+ DATOS: 004c7000-004ca000 
+                             
+ mem2_v2 : 40000
+ 004c7000-004ca000 rw-p 000c6000 08:16 1706514                            /home/juanca/Documentos/Q3/SO/   S5/mem2_previo_v2                                                                                      
+ 5 004ca000-004cf000 rw-p 00000000 00:00 0                                                                
+ 6 004ed000-00537000 rw-p 00000000 00:00 0                                  [heap]                        
+ 7 7ffdf5586000-7ffdf55a7000 rw-p 00000000 00:00 0                          [stack]                       
+ 8 7ffdf55cb000-7ffdf55cf000 r--p 00000000 00:00 0                          [vvar]                        
+ 9 7ffdf55cf000-7ffdf55d1000 r-xp 00000000 00:00 0                          [vdso]                        
+10 ffffffffff600000-ffffffffff601000 --xp 00000000 00:00 0                  [vsyscall]                 [vsyscall]                             
+    
+ HEAP = 004ed000-00537000
+ DATOS =  004c7000-004ca000 
+                                                              
+

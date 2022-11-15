@@ -98,3 +98,35 @@ reservada con malloc? Apunta la dirección inicial, dirección final y el nombre
 HEAP DYNAMIC: 564b5208b000-564b520ac000
 HEAP STATIC: 01dfe000-01e20000
 
+#PREGUNTA 39.Para cada ejecución apunta el número de mallocs hechos y la dirección inicial y
+final del heap que muestra el fichero maps del /proc. ¿Cambia el tamaño según el parámetro
+de entrada? ¿Por qué?
+->
+1. Num Malloc == 3:
+	HEAP = 55888b3f1000-55888b3f2000 = 94044940083200 - 94044940079104 = 4096;
+2. Num Malloc == 5:
+	HEAP = 55888b3f1000-55888b3f2000 = 94044940083200 - 94044940079104 = 4096;
+3. Num Malloc == 100:
+	HEAP = 55b88057e000-55b880602000 = 94250916126720 - 94250915586048 = 540672;
+-> Observamos que para los dos primeros casos, al usar malloc se ha reservado un espacio suficientemente grande para que tatno para 3 malloc como para 5, el heap conserva el mismo tamaño, mientras que para num mallocs = 100, si que se reserva mucho más espacio en el heap, y por lo tanto este es mayor.
+
+#PREGUNTA 40.¿Cuál es el tamaño del heap en este caso? Explica los resultados
+-> HEAP en v2: 55ff0a828000-55ff0a849000 = 94553881481216 - 94553881346048 = 135168;
+Podemos ver que aunque el heap es más grande que el tamaño básico de la pregunta enterior, es mucho menor que en el caso para 100 de la pregunta anterior. Esto se debe a que parte del heap se ha ido liberando de la memoria gracias a la función heap:
+
+#PREGUNTA 41.Para cada ejecución apunta el número de sbrks hechos y la dirección inicial y
+final del heap que se muestra en el maps del /proc. ¿Cambia el tamaño del heap respecto al
+observado en la pregunta 6? ¿Por qué?
+-> Sbrk = 3: HEAP = 5594cdb9b000-5594cdb9e000 = 94097595031552 - 94097595019264 = 12288 / 4 = 3000+-
+-> Sbrk = 5: HEAP = 555b45caf000-555b45cb4000 = 93850501332992 - 93850501312512 =  20480 / 4 = 5000+-
+-> Sbrk = 100: HEAP = 55aada28b000-55aada2ef000 = 94192293310464 - 94192292900864 = 102400
+
+Com podem veure, sbrk sempre reserva l'espai desitjat per el nombre d'execucions demanades, ja que sbrk sempre augmenta el heap.
+
+#PREGUNTA 42.¿Qué error contiene el código del programa? ¿Por qué el programa no falla en
+las primeras iteraciones? Propón una alternativa a este código que evite que se genere la
+excepción, detectando, antes de que pase, que vamos a hacer un acceso fuera del espacio de
+direcciones.
+-> El programa hace un solo malloc. Este reserva un cierto espacio del heap y ya. A partir de ahí el bucle itera infinitamente en el heap, sin tener en cuenta el tamaño del malloc usado. Es por ello que al cabo de muchas iteraciones el se llega al máximo del heap y al intentar acceder a una dirección posterior a este sale la excepción. Para corregir esto bastaría meter un condicional para que el programa iterara solo mientras la dirección de p sea menor a la dirección final del heap. Para ello bastaría con hacer sbrk(0) y guardar el valor de retorno en un puntero a int.
+
+
