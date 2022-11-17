@@ -1,0 +1,17 @@
+1: En que fichero del proc se muestran el número de fallos de página
+->Para encontrar los números de fallos de página hay que entrar en el fichero /proc/[pid]/stat,
+donde los valores en la posición 11/12 son los fallos de paǵina menores, mientras que el 13 son los mayores.
+
+2. Que función hay que utilizar para que vmstat muestre la información por segundo, en que columnas salen los swap-in y swap-out
+ vmstat -n 1
+	Swap-in: si 
+	swap-out: so
+	
+3. 	./fib 10 -> 0:00.00elapsed
+	./fib 20 -> 0:00.00elapsed
+	./fib 30 -> 0:00.01elapsed 
+	./fib 40 -> 0:00.67elapsed 
+	./fib 50 -> 1:23.47elapsed
+
+4. Apunta el valor usado por nice en la ejecución del script
+-> Si miramos la columna Ni en htop vemos que el valor es 10
