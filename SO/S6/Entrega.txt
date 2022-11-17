@@ -1,0 +1,8 @@
+PREGUNTA 43. Apunta en el fichero entrega.txt el número de unidades de cálculo (hardware
+threads, cores y CPUS) que tienes en la máquina.
+-> 	NCORES = 6
+	NTHREADS = 2 por core, siendo 6 = 12 threads 
+	NCPUS =  2 por core, siendo 6 = 12 threads
+	
+PREGUNTA 44/45/46 en el excel
+
