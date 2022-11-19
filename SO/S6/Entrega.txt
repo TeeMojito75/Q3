@@ -6,3 +6,19 @@ threads, cores y CPUS) que tienes en la máquina.
 	
 PREGUNTA 44/45/46 en el excel
 
+
+PREGUNTA 50.¿Cómo se ve afectado el tiempo de ejecución de FIB respecto al número de
+instancias de BAJA_PRIO_FIB?
+-> El tiempo de ejecución de FIB siempre es menor a las de BAJA_PRIO_FIB, ya que el segundo script siempre asigna baja priordad a las ejecuciones, y por lo tanto el cpu va a tardar más en 
+
+PREGUNTA 51.¿Qué %CPU ha asignado el sistema a cada proceso con 2 y NTHREADS+2
+instancias de BAJA_PRIO_FIB?
+-> PRIOS = {93.3/88.7/87.4/86.8/84.8/84.8/83.5/83.5/81.6/80.3/80.3/79.0}
+
+PREGUNTA 52.¿Cuánta memoria física tiene el sistema (F) en bytes?
+-> Tiene un total de 16579567616 bytes de mem física.
+
+PREGUNTA 53.Rellena la siguiente tabla y añádela al fichero s6.ods. ¿En la Ejecución 2 por qué
+crees que cambia el tiempo de acceso según el número de iteración?
+-> Perque en la primera iteració també es comptabilitza el temps de tota l'execució de codi anterior
+
