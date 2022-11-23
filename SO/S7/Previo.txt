@@ -1,0 +1,30 @@
+#Pregunta1 : ¿Qué valor devuelve la llamada read después de pulsar el ^D?
+-> Al pulsar control + D, la llamada read devuelve un 0, ya que es un end of file. El programa es1.c está pensado de tal forma que una vez read devuelva 0, se escribe un mensaje por pantalla y termina la ejecución.
+
+#Pregunta2 : Apunta el comando utilizado en el fichero “previo.txt”.
+-> El comando usado ha sido: ./es1 < file.txt
+
+#Pregunta3 : ¿Cuál es el resultado? ¿Qué operación realiza el comando ‘grep es’?
+-> El comando lo que hace es buscar el patrón dado, en este caso 'es'. el sitio donde busca el patrón depende del input al comando. En este caso al haber hecho #ls -l | grep es, muestra que ficheros del directorio tienen 'es' en el nombre
+
+#Pregunta4 :  Ejecuta un pipeline que muestre en la salida estándar el PID, el usuario y el nombre de
+todos los procesos bash que se están ejecutando en el sistema. Para ello utiliza los
+comandos ps y grep combinados con una pipe. Anota el comando en el fichero
+“previo.txt”.
+-> ps -eo pid,user,command | grep '[z]sh' 
+
+#Pregunta5 : ¿Cuántos bytes se escriben en cada caso? ¿Qué diferencias observas en lo que aparece en pantalla?
+-> En la representación interna se escriben 4 bytes, mientras que en la representación de strings se escriben 5. La representación interna muestra el ascii del valor guardado, mientras que la impresión de strings muestra el valor en números (sigue siendo una cadena de strings).
+La diferencia de entre 4 y 5 bytes es debido que al pasar el número a bytes, se escribe un byte por dígito.
+
+#Analiza:
+a) ¿Qué función sirve para implementar el read específico del dispositivo
+gestionado por cada device driver?
+-> La función read_driver_1 para el driver 1 y la función read_driver_2 para el driver 2.
+
+b) ¿Qué son el major y el minor? ¿Para qué sirven? ¿Qué major y minor
+utilizan los dos device drivers?
+-> El Major y minor son los identificadores del direver(Major indica el tipo de dispositivo y el minor el driver en si) y sirven para asociar un dispositivo lógico con el codigo de acceso específico
+Device driver 1(major, minor) = 249, 0
+Device driver 2(major, minor) = 250, 0
+
