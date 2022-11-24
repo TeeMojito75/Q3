@@ -4,7 +4,7 @@
  * Write the name of your player and save this file
  * with the same name and .cc extension.
  */
-#define PLAYER_NAME Prova
+#define PLAYER_NAME Sif
 
 // DISCLAIMER: The following Demo player is *not* meant to do anything
 // sensible. It is provided just to illustrate how to use the API.
@@ -79,6 +79,7 @@ struct PLAYER_NAME : public Player {
         Pos p = Q.front().first;
         f = p.i, c = p.j;
         Q.pop();
+
       if (distance > 20) return false;
       if (c-1 >= 0 and not visit[f][c-1] and cell(f, c-1).type != Waste) {
         visit[f][c-1] = true;
