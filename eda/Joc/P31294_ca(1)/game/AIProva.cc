@@ -49,123 +49,130 @@ struct PLAYER_NAME : public Player {
       Pos aux = unit(id).pos;
       int f = aux.i, c = aux.j;
       VVB visit(board_rows(), vector<bool>(board_cols(), false));
-      queue<pair<Pos, Dir>> Q;
+      queue<pair<Pos, pair<Dir, int>>> Q;
       visit[f][c] = true;
 
       //Primero comprobamos si las posiciones adyacentes tienen algo, en caso contrario miramos más profundidad        
-      if (c-1 >= 0 and not visit[f][c-1] and cell(f, c-1).type != Waste) {
+      if (pos_ok(aux+Left) and not visit[f][c-1] and cell(f, c-1).type != Waste) {
           if (cell(f, c-1).food) {d = Left; return true;}
-          else Q.push(make_pair(aux, Left));
+          else Q.push(make_pair(aux+Left, make_pair(Left, 1)));
       }
 
-      if (c+1 < board_cols() and not visit[f][c+1] and cell(f, c+1).type != Waste) {
+      if (pos_ok(aux+Right) and not visit[f][c+1] and cell(f, c+1).type != Waste) {
           if (cell(f, c+1).food) {d = Right; return true;}
-          else Q.push(make_pair(aux, Right));
+          else Q.push(make_pair(aux+Right, make_pair(Right, 1)));
       }
       
-      if (f-1 >= 0 and not visit[f-1][c] and cell(f-1, c).type != Waste) {
+      if (pos_ok(aux+Up) and not visit[f-1][c] and cell(f-1, c).type != Waste) {
           if (cell(f-1, c).food) {d = Up; return true;}
-          else Q.push(make_pair(aux, Up));
+          else Q.push(make_pair(aux+Up, make_pair(Up, 1)));
       }
 
-      if (f+1 < board_rows() and not visit[f+1][c] and cell(f+1, c).type != Waste) {
+      if (pos_ok(aux+Down) and not visit[f+1][c] and cell(f+1, c).type != Waste) {
           if (cell(f+1, c).food) {d = Down; return true;}
-          else Q.push(make_pair(aux, Down));
+          else Q.push(make_pair(aux+Down, make_pair(Down, 1)));
       }
 
-      int n = 0;
-      while (not Q.empty() and n <= 20) {
-        Dir de = Q.front().second;
-        Pos p = Q.front().first + de;
+      while (not Q.empty()) {
+        Dir de = Q.front().second.first;
+        int distance = Q.front().second.second+1;
+        Pos p = Q.front().first;
         f = p.i, c = p.j;
         Q.pop();
-        visit[f][c] = true;
-      
+      if (distance > 20) return false;
       if (c-1 >= 0 and not visit[f][c-1] and cell(f, c-1).type != Waste) {
-        if (cell(f, c-1).food) {d = Left; return true;}
-        else Q.push(make_pair(p, Left));
+        visit[f][c-1] = true;
+        if (cell(f, c-1).food) {d = de; return true;}
+        else Q.push(make_pair(p+Left, make_pair(de, distance)));
       }
 
       if (c+1 < board_cols() and not visit[f][c+1] and cell(f, c+1).type != Waste) {
-        if (cell(f, c+1).food) {d = Right; return true;} 
-        else Q.push(make_pair(p, Right));
+        visit[f][c+1] = true;
+        if (cell(f, c+1).food) {d = de; return true;} 
+        else Q.push(make_pair(p+Right, make_pair(de, distance)));
       }
       
       if (f-1 >= 0 and not visit[f-1][c] and cell(f-1, c).type != Waste) {
-        if (cell(f-1, c).food) {d = Up; return true;}
-        else Q.push(make_pair(p, Up));
+        visit[f-1][c] = true; 
+        if (cell(f-1, c).food) {d = de; return true;}
+        else Q.push(make_pair(p+Up, make_pair(de, distance)));
       }
 
       if (f+1 < board_rows() and not visit[f+1][c] and cell(f+1, c).type != Waste) {
-        if (cell(f+1, c).food) {d = Down; return true;}
-        else Q.push(make_pair(p, Down));
+        visit[f+1][c] = true;
+        if (cell(f+1, c).food) {d = de; return true;}
+        else Q.push(make_pair(p+Down, make_pair(de, distance)));
       }
-       ++n;
       }
       return false;
     }
 
-    const vector<Dir> dirs = {Left, Right, Up, Down};
+    
 
-    int bfs_atacar(int id) {
+   bool bfs_atacar(int id, Dir& d) {
       Pos aux = unit(id).pos;
       int f = aux.i, c = aux.j;
-      VVB visit(board_cols(), vector<bool>(board_rows(), false));
-      queue<pair<Pos, Dir>> Q;
+      VVB visit(board_rows(), vector<bool>(board_cols(), false));
+      queue<pair<Pos, pair<Dir, int>>> Q;
       visit[f][c] = true;
 
       //Primero comprobamos si las posiciones adyacentes tienen algo, en caso contrario miramos más profundidad        
-      if (c-1 >= 0 and not visit[f][c-1] and cell(f, c-1).type != Waste) {
-          if (z_o_e(f, c-1)) return 0;
-          else Q.push(make_pair(aux, Left));
+      if (pos_ok(aux+Left) and not visit[f][c-1] and cell(f, c-1).type != Waste) {
+          if (z_o_e(f, c-1)) {d = Left; return true;}
+          else Q.push(make_pair(aux+Left, make_pair(Left, 1)));
       }
 
-      if (c+1 < board_cols() and not visit[f][c+1] and cell(f, c+1).type != Waste) {
-          if (z_o_e(f, c+1)) return 1;
-          else Q.push(make_pair(aux, Right));
+      if (pos_ok(aux+Right) and not visit[f][c+1] and cell(f, c+1).type != Waste) {
+          if (z_o_e(f, c+1)) {d = Right; return true;}
+          else Q.push(make_pair(aux+Right, make_pair(Right, 1)));
       }
       
-      if (f-1 >= 0 and not visit[f-1][c] and cell(f-1, c).type != Waste) {
-          if (z_o_e(f-1, c)) return 2;
-          else Q.push(make_pair(aux, Up));
+      if (pos_ok(aux+Up) and not visit[f-1][c] and cell(f-1, c).type != Waste) {
+          if (z_o_e(f-1, c)) {d = Up; return true;}
+          else Q.push(make_pair(aux+Up, make_pair(Up, 1)));
       }
 
-      if (f+1 < board_rows() and not visit[f+1][c] and cell(f+1, c).type != Waste) {
-          if (z_o_e(f+1, c)) return 3;
-          else Q.push(make_pair(aux, Down));
+      if (pos_ok(aux+Down) and not visit[f+1][c] and cell(f+1, c).type != Waste) {
+          if (z_o_e(f+1, c)) {d = Down; return true;}
+          else Q.push(make_pair(aux+Down, make_pair(Down, 1)));
       }
 
-      int n = 0;
-      while (not Q.empty() and n <= 15) {
-        Dir de = Q.front().second;
-        Pos p = Q.front().first + de;
+      while (not Q.empty()) {
+        Dir de = Q.front().second.first;
+        int distance = Q.front().second.second+1;
+        Pos p = Q.front().first;
         f = p.i, c = p.j;
         Q.pop();
-        visit[f][c] = true;
-      
+
+      if (distance > 20) return false;
       if (c-1 >= 0 and not visit[f][c-1] and cell(f, c-1).type != Waste) {
-        if (z_o_e(f, c-1)) return 0;
-        else Q.push(make_pair(p, Left));
+        visit[f][c-1] = true;
+        if (z_o_e(f, c-1)) {d = de; return true;}
+        else Q.push(make_pair(p+Left, make_pair(de, distance)));
       }
 
       if (c+1 < board_cols() and not visit[f][c+1] and cell(f, c+1).type != Waste) {
-        if (z_o_e(f, c+1)) return 1; 
-        else Q.push(make_pair(p, Right));
+        visit[f][c+1] = true;
+        if (z_o_e(f, c+1)) {d = de; return true;} 
+        else Q.push(make_pair(p+Right, make_pair(de, distance)));
       }
       
       if (f-1 >= 0 and not visit[f-1][c] and cell(f-1, c).type != Waste) {
-        if (z_o_e(f-1, c)) return 2; 
-        else Q.push(make_pair(p, Up));
+        visit[f-1][c] = true; 
+        if (z_o_e(f-1, c)) {d = de; return true;}
+        else Q.push(make_pair(p+Up, make_pair(de, distance)));
       }
 
       if (f+1 < board_rows() and not visit[f+1][c] and cell(f+1, c).type != Waste) {
-        if (z_o_e(f+1, c)) return 3;
-        else Q.push(make_pair(p, Down));
+        visit[f+1][c] = true;
+        if (z_o_e(f+1, c)) {d = de; return true;}
+        else Q.push(make_pair(p+Down, make_pair(de, distance)));
       }
-       ++n;
       }
-      return -1;
+      return false;
     }
+
+    const vector<Dir> dirs = {Up, Down, Left, Right};
 
   void moure_peces() {
     vector<int> alive = alive_units(me());
@@ -178,16 +185,21 @@ struct PLAYER_NAME : public Player {
           bool mv = bfs_menjar(id, moviment);
           if (mv) move(id, moviment);
           else {
-              int xy = bfs_atacar(id);
-              if (xy != -1) move(id, dirs[xy]);
+              bool ataque = bfs_atacar(id, moviment);
+              if (ataque) move(id, moviment);
               else {
-                Dir d = dirs[random(0,dirs.size()-1)];
-	              Pos new_pos = unit(id).pos + d;
-	              if (pos_ok(new_pos) and cell(new_pos.i,new_pos.j).type != Waste) move(id,d);
+                bool ataque = false;
+                int i = 0;
+                while (i < 4 and not ataque) {
+                  Dir d = dirs[0];
+	                Pos new_pos = unit(id).pos + d;
+	                if (pos_ok(new_pos) and (cell(new_pos).id == -1 or (cell(new_pos).id != -1 and cell(new_pos).owner != me())) and cell(new_pos.i,new_pos.j).type != Waste) {move(id,d); ataque = true;}
+                  ++i;
+                }
               }
+            }
           }
         }
-      }
   }
 
   /**
