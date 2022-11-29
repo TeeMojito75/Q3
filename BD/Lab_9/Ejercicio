@@ -1,0 +1,20 @@
+#Execució 1
+Quin ha estat l'efecte de l'execució del programa sobre la taula Professors? Perquè? 
+-> Els dos selects mostren el mateix. El motiu és que al programa de java no s'ha fet un commit en cap moment, sinó un rollback.
+
+#Execució 2
+Quin ha estat l'efecte de l'execució del programa sobre la taula Professors? Perquè? 
+-> Ara que es fa un commit, els els canvis que provoqui el programa a java si que afecten a la base de dades, com podem veure amb el select, ja que s'ha afegit un nou professor.
+
+#Execució 3
+Quin ha estat l'efecte de l'execució del programa sobre la taula Professors? Perquè?
+-> Al volver a ejecutarse la misma sentencia, el programa ha dado un código de error 23505 y un mensaje de error, advirtiendo de qeu se intenaba meter un duplicado de clave primaria.
+
+Com podrieu fer (sense afegir accessos a la base de dades des del programa) que quan es dongui aquesta excepció en lloc del missatge obtingut surti "El professor ja existeix"? 
+->Basta meter la siguiente sentencia en el apartado de errores:
+	if (se.getSQLState().equals("23505")) {
+		System.out.println("El professor ja existeix")
+	}
+	
+#Execució 4
+

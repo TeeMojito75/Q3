@@ -1,0 +1,36 @@
+PREGUNTA 55.Apunta en el fichero “entrega.txt” los comandos que has utilizado en cada
+apartado. Además entrega el fichero “es1_v2.c” ¿Qué diferencias observas en las dos
+ejecuciones de strace? ¿Cuántas llamadas a sistema read ejecuta cada versión? ¿Qué
+influencia puede tener sobre el rendimiento de ambas versiones de código? ¿Por qué?
+-> Los comandos ejecutados para conseguir guardar las llamadas a sistema son:
+	# strace –o salida_v2 –e read ./es1_v2 < es2.c
+	# strace –o salida_v1 –e read ./es1 < es2.c
+Como tal las ejecuciones en la terminal pueden parecer similares, pero una vez entras en los ficheros donde strace ha guardado la cantidad de reads que ha hecho cada ejecución, es1_v2 ha hecho muchas menos llamadas que la original que lee byte por byte.
+Esto puede tener gran impacto en el rendimiento, ya que mientras la original hace más de 1500 reads, el otro solo hace 6. Podemos ver que uno es mucho más conveniente en temas de eficiencia.
+
+PREGUNTA 56.Explica las diferencias observadas en la salida del programa cuando el primer
+parámetro vale 0 o 1. ¿Para qué crees que sirve este parámetro?
+->  En la salida en el valor ascii, aparecen unos valores, mientras que en la salida de entero salen caracteres especiales. Este parámetro basicamente permite sacar salidas de datos en dos formatos diferentes, en ascii y en int.
+
+Preguntas 57 y 58:
+-> Las salidas en estas 4 ejecuciones varian. Si a es3 y es4 le pasas la salida del formato correcto, estos imprimen el número de enteros que habias creado con es2, mientras que si le pasas la salida incorrecta, es3 imprime más valores de los indicados, ya que la salida en ascii leida como int son muhcos más int, mientras que cuando el ascii intenta leer la salida int lee literalmente caracteres.
+
+
+PREGUNTA 59.Escribe los valores que ha mostrado el script showCpuTime.sh para cada uno
+de los procesos y comenta las diferencias entre ellos en cuanto al consumo de cpu. ¿A qué se
+deben? Identifica las líneas de código de marcan la diferencia entre ellos
+
+./es5                        102 00:00:19
+./es1                        0.0 00:00:00
+./es5                        102 00:00:21
+./es1                        0.0 00:00:00
+./es5                        102 00:00:23
+./es1                        0.0 00:00:00
+./es5                        102 00:00:25
+./es1                        0.0 00:00:00
+./es5                        102 00:00:27
+./es1                        0.0 00:00:00
+./es5                        102 00:00:29
+./es1                        0.0 00:00:00
+
+-> Mientras es1 no consume cpu en toda la ejecución, el es5 consume toda la cpu disponible durante la ejecución. Esto se debe a que es5 hace un bucle infinito, que ocupa la cpu, ya que puede interpretarse como estar ejecutándose continuamente, mientras que es1 espera a hacer el read, y por lo tanto no consume cpu
