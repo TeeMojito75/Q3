@@ -4,7 +4,7 @@
  * Write the name of your player and save this file
  * with the same name and .cc extension.
  */
-#define PLAYER_NAME Sif
+#define PLAYER_NAME Artorias
 
 // DISCLAIMER: The following Demo player is *not* meant to do anything
 // sensible. It is provided just to illustrate how to use the API.
@@ -26,6 +26,7 @@ struct PLAYER_NAME : public Player {
    */
     typedef vector<vector<bool>> VVB;
     typedef pair<int, Dir> movj;  
+    #define s_alta_prio = 0;
     #define alta_prio = 1;
     #define mid_prio = 2;
     #define baixa_prio = 3;
@@ -185,13 +186,13 @@ struct PLAYER_NAME : public Player {
       for (auto id : alive) {
         Dir moviment;
         bool mov = moviment_inicial(id, moviment);
-        if (mov) PQ.push(make_pair(1, make_pair(id, moviment)));
+        if (mov) PQ.push(make_pair(0, make_pair(id, moviment)));
         else {
           bool mv = bfs_menjar(id, moviment);
           if (mv) PQ.push(make_pair(1, make_pair(id, moviment)));
           else {
               bool ataque = bfs_atacar(id, moviment);
-              if (ataque) PQ.push(make_pair(3, make_pair(id, moviment)));
+              if (ataque) PQ.push(make_pair(2, make_pair(id, moviment)));
               else {
                 bool ataque = false;
                 int i = 0;

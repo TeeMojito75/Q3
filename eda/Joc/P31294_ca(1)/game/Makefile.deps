@@ -1,3 +1,5 @@
+AIArtorias.o: AIArtorias.cc Player.hh Info.hh Settings.hh Structs.hh \
+ Utils.hh Defs.hh State.hh Action.hh Random.hh Registry.hh
 AIDemo.o: AIDemo.cc Player.hh Info.hh Settings.hh Structs.hh Utils.hh \
  Defs.hh State.hh Action.hh Random.hh Registry.hh
 AINull.o: AINull.cc Player.hh Info.hh Settings.hh Structs.hh Utils.hh \
@@ -17,4 +19,5 @@ Registry.o: Registry.cc Registry.hh Utils.hh Defs.hh
 Settings.o: Settings.cc Settings.hh Structs.hh Utils.hh Defs.hh
 State.o: State.cc State.hh Structs.hh Utils.hh Defs.hh Settings.hh
 Structs.o: Structs.cc Structs.hh Utils.hh Defs.hh
+Tester.o: Tester.cc
 Utils.o: Utils.cc Utils.hh Defs.hh
