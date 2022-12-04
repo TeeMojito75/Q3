@@ -34,3 +34,9 @@ deben? Identifica las líneas de código de marcan la diferencia entre ellos
 ./es1                        0.0 00:00:00
 
 -> Mientras es1 no consume cpu en toda la ejecución, el es5 consume toda la cpu disponible durante la ejecución. Esto se debe a que es5 hace un bucle infinito, que ocupa la cpu, ya que puede interpretarse como estar ejecutándose continuamente, mientras que es1 espera a hacer el read, y por lo tanto no consume cpu
+
+PREGUNTA 62.¿Estaba ya en uso el major especificado en el código? En caso afirmativo, ¿qué
+driver lo estaba utilizando
+-> Si, el major 249 ya está siendo utilizado por el driver dma-heap y el 250 igual, está siendo utilizado por el driver dax.
+
+

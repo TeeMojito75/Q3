@@ -1,0 +1,1 @@
+cmd_/home/juanca/Documentos/Q3/SO/S7/deviceDrivers/myDriver1.mod := { echo  /home/juanca/Documentos/Q3/SO/S7/deviceDrivers/myDriver1.o;  echo; } > /home/juanca/Documentos/Q3/SO/S7/deviceDrivers/myDriver1.mod

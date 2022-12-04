@@ -1,0 +1,1 @@
+cmd_/home/juanca/Documentos/Q3/SO/S7/deviceDrivers/modules.order := {   echo /home/juanca/Documentos/Q3/SO/S7/deviceDrivers/myDriver1.ko;   echo /home/juanca/Documentos/Q3/SO/S7/deviceDrivers/myDriver2.ko; :; } | awk '!x[$$0]++' - > /home/juanca/Documentos/Q3/SO/S7/deviceDrivers/modules.order

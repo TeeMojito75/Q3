@@ -1,0 +1,10 @@
+PREGUNTA 67.¿Qué contiene el fichero al final de la ejecución?¿Contiene la salida del padre y
+del hijo, o sólo la del padre? ¿Cómo se explica ese contenido?
+-> El fichero final incluye los mensajes "Inicio / Fin". El primero lo escribe el hijo debido a que el padre se lo envñia a través de la pipe. El mensaje de Fin lo manda el padre al acabar el programa.
+
+PREGUNTA 68.¿Acaba el programa padre? ¿y el hijo? ¿Por qué?
+-> El programa ahora no acaba. Aunque el hijo si termina correctamente por haber cerrado sus canales cuando hacía falta. Al no cerrar el de escritura del padre se queda esperando a más información a enviar, pero como no hay nada queda suspendido.
+
+PREGUNTA 69.Si quisiéramos que el lector también pudiera enviar un mensaje al escritor
+¿podríamos utilizar la misma pipe con nombre o deberíamos crear otra? Razona la respuesta.
+-> Se puede usar la misma porque con la opción p del comando mknod, la pipe creada es bidireccional.

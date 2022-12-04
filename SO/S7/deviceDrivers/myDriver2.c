@@ -12,7 +12,7 @@ MODULE_DESCRIPTION ("A very simple device driver (2)");
 
 // major and minors are the device driver identifiers. They are used to
 // associate a logical device with its specific access code
-#define MAJOR_DRIVER_2	250
+#define MAJOR_DRIVER_2	260 
 #define MINOR_DRIVER_2	0
 
 static ssize_t read_driver_2 (struct file *f, char __user * buffer, size_t s,
