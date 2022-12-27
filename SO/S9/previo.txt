@@ -1,0 +1,98 @@
+#PREGUNTAS:
+1- ¿Cómo podéis saber los sistemas de ficheros montados en vuestro sistema y de
+qué tipo son? Indica, además, en qué directorios están montados.
+-> Basta hacer #df -T y este comando resulta en:
+S.ficheros     Tipo  bloques de 1K   Usados Disponibles Uso% Montado en
+tmpfs          tmpfs       1619100     2648     1616452   1% /run
+/dev/sdb6      ext4      100205640 30299916    64769340  32% /
+tmpfs          tmpfs       8095492        0     8095492   0% /dev/shm
+tmpfs          tmpfs          5120        4        5116   1% /run/lock
+/dev/sdb1      vfat          98304    74649       23655  76% /boot/efi
+tmpfs          tmpfs       1619096     4740     1614356   1% /run/user/1000
+
+2- ¿Cómo se puede saber el número de inodos libres de un sistema de ficheros?
+-> Haciendo #df -i
+
+3- ¿Cómo se puede saber el espacio libre de un sistema de ficheros? ¿Qué
+comando has utilizado y con qué opciones?
+-> Haciendo #df -h
+
+4 - ¿De qué tipo es cada uno de links creados, sl_pr y hl_pr? Ejecuta el comando
+stat sobre pr.txt, sobre sl_pr y sobre hl_pr. Busca en la salida de stat la
+información sobre el inodo, el tipo de fichero y el número de links y anótala en
+el fichero previo.txt. ¿Cuál es el número de links que tiene cada fichero? ¿Qué
+significa ese valor? ¿Qué inodo tiene cada fichero? ¿Alguno de los links, sl_pr o
+hl_pr, tiene el mismo inodo que pr.txt? ¿Si es así, qué significa eso?
+
+-> sl_pr és un soft o symbolic link, mientras que hl_pr es un hard link, ya que la comanda ln crea de base un hard link, pero con la opción -s puede ser un soft link.
+ 
+	    #stat pr.txt
+            Fichero: «pr.txt»
+	    Tipo: Fichero regular.
+            Nodo-i: 524947     Enlaces: 2
+            
+            #stat sl_pr
+            Fichero: «sl_pr» -> «pr.txt»
+            Tipo: Enlace simbólico
+            Nodo-i: 525247     Enlaces: 1
+
+            #stat hl_pr
+            Fichero: «hl_pr»
+            Tipo: Fichero regular
+            Nodo-i: 524947     Enlaces: 2
+            
+*¿Que significa el numero de enlaces?
+El numero de apariciones en la tabla de ficheros
+
+*¿Que significa que pr.txt y hl_pr tengan el mismo inode?
+Que tienen el mismo inode que el fichero desde el cual se han creado los links
+
+5- Ejectua cat, namei y readlink sobre los dos links y apunta los resultados
+
+*sl_pr :
+	-cat: esto es una prueba
+	-namei: f: sl_pr
+		 l sl_pr -> pr.txt
+   		-pr.txt
+	-readlink: pr.txt
+	
+*hl_pr:		
+	-cat: esto es una prueba
+	-namei: f: hl_pr
+		 - hl_pr
+	-readlink:	
+	
+6- Elimina el fichero y vuelve a ejecutar stat, cat, namei y readlink sobre los links
+
+*sl_pr:
+	-stat:  Fichero: sl_pr -> pr.txt
+		Nodo-i: 525247      Enlaces: 1  Tipo: enlace simbólico
+	-cat: cat: sl_pr: No existe el archivo o el directorio
+	-namei: f: sl_pr
+		 l sl_pr -> pr.txt
+    		 pr.txt - No existe el archivo o el directorio
+
+	-readlink: pr.txt
+	
+*hl_pr:
+	-stat: Fichero: «hl_pr»
+               Tipo: Fichero regular
+               Nodo-i: 524947     Enlaces: 1
+	
+	-cat: esto es una prueba
+	-namei: f: hl_pr
+		 - hl_pr
+	-readlink: ---
+
+-Mientras que en sl hl_pr solo cambia el nombre de enlaces que imprime stat, el sl_pr si que hay mayores diferencias. Estas se deben a la eliminación en sí del archivo, ya que cuando el soft link intenta acceder, al no existir el archivo no puede acceder.
+
+
+
+
+
+
+
+
+		
+	
+	
